@@ -1,19 +1,15 @@
 plugins {
-    kotlin("jvm") version "1.7.22"
+    kotlin("jvm") version "1.9.20"
 }
 
-repositories {
-    mavenCentral()
+sourceSets {
+    main {
+        kotlin.srcDir("src")
+    }
 }
 
 tasks {
-    sourceSets {
-        main {
-            java.srcDirs("src")
-        }
-    }
-
     wrapper {
-        gradleVersion = "7.6"
+        gradleVersion = "8.5"
     }
 }
