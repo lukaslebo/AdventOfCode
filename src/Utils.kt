@@ -18,3 +18,17 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
 fun <T> check(actual: T, expected: T) {
     kotlin.check(actual == expected) { "Got $actual but expected $expected." }
 }
+
+fun Iterable<Long>.lcm(): Long = reduce(::lcm)
+fun Iterable<Long>.gcd(): Long = reduce(::gcd)
+
+/** Least common multiple */
+fun lcm(a: Long, b: Long): Long {
+    return a / gcd(a, b) * b
+}
+
+/** Greatest common divisor */
+fun gcd(a: Long, b: Long): Long {
+    if (b == 0L) return a
+    return gcd(b, a % b)
+}
