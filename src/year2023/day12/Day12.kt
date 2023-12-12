@@ -38,7 +38,11 @@ private fun ConditionRecord.unfold(factor: Int) = ConditionRecord(
 
 private fun ConditionRecord.combinations() = combinations(record = record, groups = groups)
 
-private fun combinations(record: String, groups: List<Int>, cache: MutableMap<Pair<String, List<Int>>, Long> = HashMap()): Long {
+private fun combinations(
+    record: String,
+    groups: List<Int>,
+    cache: MutableMap<Pair<String, List<Int>>, Long> = HashMap(),
+): Long {
     if (groups.isEmpty()) return if ("#" in record) 0 else 1
     if (record.isEmpty()) return 0
 
@@ -47,10 +51,7 @@ private fun combinations(record: String, groups: List<Int>, cache: MutableMap<Pa
         if (record.first() in ".?") {
             result += combinations(record = record.drop(1), groups = groups, cache = cache)
         }
-        if (record.first() in "#?" && record.length >= groups.first() && "." !in record.take(groups.first()) && record.getOrNull(
-                groups.first()
-            ) != '#'
-        ) {
+        if (record.first() in "#?" && record.length >= groups.first() && "." !in record.take(groups.first()) && record.getOrNull(groups.first()) != '#') {
             result += combinations(record = record.drop(groups.first() + 1), groups = groups.drop(1), cache = cache)
         }
         result
