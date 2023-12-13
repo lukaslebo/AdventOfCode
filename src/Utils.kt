@@ -32,3 +32,8 @@ fun gcd(a: Long, b: Long): Long {
     if (b == 0L) return a
     return gcd(b, a % b)
 }
+
+fun List<String>.splitByEmptyLines(): List<List<String>> =
+    joinToString("\n")
+        .split("\n\n")
+        .map { it.split("\n") }
