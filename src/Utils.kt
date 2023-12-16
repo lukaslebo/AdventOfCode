@@ -1,3 +1,7 @@
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -37,3 +41,9 @@ fun List<String>.splitByEmptyLines(): List<List<String>> =
     joinToString("\n")
         .split("\n\n")
         .map { it.split("\n") }
+
+fun <T, R> Iterable<T>.parallelMap(block: (T) -> R): List<R> {
+    return runBlocking(Dispatchers.Default) {
+        map { async { block(it) } }.awaitAll()
+    }
+}
