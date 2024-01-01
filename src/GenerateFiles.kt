@@ -2,13 +2,13 @@ import java.io.File
 import java.time.LocalDate
 
 private val year = LocalDate.now().year
+private val day = LocalDate.now().dayOfMonth
 private const val generateAllDays = false
 
 fun main() {
     if (generateAllDays) {
         generateAllDays()
     } else {
-        val day = LocalDate.now().dayOfMonth
         generateDay(if (!existsDay(day)) day else day + 1)
     }
 }
@@ -29,8 +29,7 @@ private fun existsDay(day: Int): Boolean {
 private fun generateDay(day: Int) {
     val paddedDay = day.toString().padStart(2, '0')
     File("input/$year").mkdirs()
-    File("input/$year/Day${paddedDay}_test_part1.txt").writeText("")
-    File("input/$year/Day${paddedDay}_test_part2.txt").writeText("")
+    File("input/$year/Day${paddedDay}_test.txt").writeText("")
     File("input/$year/Day$paddedDay.txt").writeText("")
     File("src/year$year/day$paddedDay").mkdirs()
     val content = kotlinContent.replace("{year}", year.toString()).replace("{day}", paddedDay)
@@ -44,10 +43,9 @@ private val kotlinContent = """
     import readInput
 
     fun main() {
-        val testInput1 = readInput("{year}", "Day{day}_test_part1")
-        val testInput2 = readInput("{year}", "Day{day}_test_part2")
-        check(part1(testInput1), 0)
-        check(part2(testInput2), 0)
+        val testInput = readInput("{year}", "Day{day}_test")
+        check(part1(testInput), 0)
+        //check(part2(testInput), 0)
 
         val input = readInput("{year}", "Day{day}")
         println(part1(input))
