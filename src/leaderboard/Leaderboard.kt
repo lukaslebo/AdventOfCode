@@ -10,7 +10,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 import java.net.HttpURLConnection
-import java.net.URL
+import java.net.URI
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
@@ -28,16 +28,20 @@ fun main(args: Array<String>) {
     val leaderboardJson = requestLeaderBoard(leaderboardUrl, session)
     val leaderboard = Json.decodeFromString<Leaderboard>(leaderboardJson)
     leaderboard.members.values.filter { it.localScore > 0 }.sortedByDescending { it.localScore }.forEach { member ->
+        val year = leaderboard.event.toInt()
         print("\n${member.name ?: "Anonymous ${member.id}"}")
         member.starsByDay.entries.sortedBy { it.key }.forEach { (day, stars) ->
             val (star1, star2) = stars
-            fun Star.time() = if (showDuration) tms.duration(day) else tms.formatted()
+            fun Star.time() = if (showDuration) tms.duration(year, day) else tms.formatted()
             print("\nDay $day: Star 1 ${star1.time()}")
             if (star2 != null) {
                 print(" | Star 2 ${star2.time()}")
             }
         }
     }
+
+    val owner = leaderboard.members[leaderboard.ownerId]
+    println("\n\nFor Leaderboard ${owner?.name} with ${leaderboard.members.size} members")
 }
 
 @Serializable
@@ -96,8 +100,8 @@ private object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
 
 private val format = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
 private fun LocalDateTime.formatted() = format(format)
-private fun LocalDateTime.duration(day: Int): String {
-    val start = LocalDateTime.of(2023, 12, day, 6, 0, 0)
+private fun LocalDateTime.duration(year: Int, day: Int): String {
+    val start = LocalDateTime.of(year, 12, day, 6, 0, 0)
     val duration = Duration.between(start, this)
     return buildString {
         val hours = duration.toHours().toString().padStart(2, '0')
@@ -108,7 +112,7 @@ private fun LocalDateTime.duration(day: Int): String {
 }
 
 private fun requestLeaderBoard(url: String, session: String): String {
-    val requestUrl = URL(url)
+    val requestUrl = URI(url).toURL()
     with(requestUrl.openConnection() as HttpURLConnection) {
         requestMethod = "GET"
 
