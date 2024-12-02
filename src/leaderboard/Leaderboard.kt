@@ -9,8 +9,8 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
-import java.net.HttpURLConnection
-import java.net.URI
+import readProgramParams
+import requestEndpoint
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
@@ -24,8 +24,11 @@ private const val showDuration = true
  * Your AoC Session and the leaderboard URL are required.
  */
 fun main(args: Array<String>) {
-    val (session, leaderboardUrl) = args.readSessionAndUrl()
-    val leaderboardJson = requestLeaderBoard(leaderboardUrl, session)
+    val (session, leaderboardUrl) = args.readProgramParams().let {
+        it.getValue("session") to it.getValue("leaderboardUrl")
+    }
+
+    val leaderboardJson = requestEndpoint(leaderboardUrl, session)
     val leaderboard = Json.decodeFromString<Leaderboard>(leaderboardJson)
     leaderboard.members.values.filter { it.localScore > 0 }.sortedByDescending { it.localScore }.forEach { member ->
         val year = leaderboard.event.toInt()
@@ -109,35 +112,4 @@ private fun LocalDateTime.duration(year: Int, day: Int): String {
         val seconds = duration.toSecondsPart().toString().padStart(2, '0')
         append("$hours:$minutes:$seconds")
     }
-}
-
-private fun requestLeaderBoard(url: String, session: String): String {
-    val requestUrl = URI(url).toURL()
-    with(requestUrl.openConnection() as HttpURLConnection) {
-        requestMethod = "GET"
-
-        // Adding a custom header
-        addRequestProperty("Cookie", "session=$session")
-        // Replace "Authorization" with your desired header name and provide the appropriate value
-
-        val responseCode = responseCode
-        if (responseCode != HttpURLConnection.HTTP_OK) {
-            error("HTTP GET request failed with response code: $responseCode")
-        }
-
-        return inputStream.bufferedReader().use { it.readText() }
-    }
-}
-
-private fun Array<String>.readSessionAndUrl(): Pair<String, String> {
-    val paramsByName = associate {
-        val parameter = it.removePrefix("--")
-        val name = parameter.substringBefore("=")
-        val value = parameter.substringAfter("=").takeIf { "=" in parameter }
-        name to value
-    }
-    return Pair(
-        paramsByName["session"] ?: error("session is missing"),
-        paramsByName["leaderboardUrl"] ?: error("leaderboardUrl is missing"),
-    )
 }
