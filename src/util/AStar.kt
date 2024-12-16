@@ -35,3 +35,34 @@ fun <T> aStar(
     }
     return null
 }
+
+fun <T> allBestPaths(
+    from: T,
+    goal: (T) -> Boolean,
+    neighboursWithCost: T.() -> Set<Pair<T, Int>>,
+    heuristic: (T) -> Int = { 0 },
+): List<Node<T>> {
+    val results = mutableListOf<Node<T>>()
+    val queue = PriorityQueue(compareBy<Node<T>> { it.cost + it.heuristic })
+    queue += Node(null, from, 0, heuristic(from))
+    val costByKey = mutableMapOf<T, Int>()
+
+    while (queue.isNotEmpty()) {
+        val current = queue.poll()
+        val costForPos = costByKey.getOrPut(current.value) { current.cost }
+        if (current.cost > costForPos) continue
+
+        if (results.isNotEmpty() && current.cost > results.first().cost) {
+            break
+        }
+
+        if (goal(current.value)) {
+            results += current
+        }
+
+        for ((next, cost) in current.value.neighboursWithCost()) {
+            queue += Node(current, next, current.cost + cost, heuristic(next))
+        }
+    }
+    return results
+}
