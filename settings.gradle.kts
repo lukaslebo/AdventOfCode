@@ -5,3 +5,12 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
+include(
+    "common",
+    "year2015",
+    "year2016",
+    "year2022",
+    "year2023",
+    "year2024",
+)
