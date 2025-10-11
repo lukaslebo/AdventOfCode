@@ -65,21 +65,20 @@ private fun List<String>.parseRace(): Race {
 
 private data class Node(val pos: Pos, val dir: Pos)
 
-context(Race)
-private fun Node.neighboursWithCost() = Pos.directions
+private fun Node.neighboursWithCost(race: Race) = Pos.directions
     .filter { it + dir != Pos(0, 0) }
     .map {
         if (it == dir) Node(pos + dir, dir) to 1
         else Node(pos, it) to 1000
     }
-    .filter { it.first.pos !in walls }
+    .filter { it.first.pos !in race.walls }
     .toSet()
 
 private fun Race.findBestPathScore(): Int {
     val endNode = aStar(
         from = Node(start, Pos.right),
         goal = { it.pos == end },
-        neighboursWithCost = { neighboursWithCost() },
+        neighboursWithCost = { neighboursWithCost(this@findBestPathScore) },
         heuristic = { it.pos.manhattanDistanceTo(end) },
     )
     return endNode?.cost ?: error("no path found")
@@ -89,7 +88,7 @@ private fun Race.countSeatsOnBestPaths(): Int {
     val allBestPaths = allBestPaths(
         from = Node(start, Pos.right),
         goal = { it.pos == end },
-        neighboursWithCost = { neighboursWithCost() },
+        neighboursWithCost = { neighboursWithCost(this@countSeatsOnBestPaths) },
         heuristic = { it.pos.manhattanDistanceTo(end) },
     )
     return allBestPaths.flatMap { it.path() }.map { it.pos }.toSet().size
