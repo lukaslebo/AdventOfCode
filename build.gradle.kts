@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "2.1.0"
-    kotlin("plugin.serialization") version "2.1.0"
+    kotlin("jvm") version "2.2.20"
+    kotlin("plugin.serialization") version "2.2.20"
 }
 
 subprojects {
@@ -16,9 +16,9 @@ subprojects {
     }
 
     dependencies {
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
-        implementation("tools.aqua:z3-turnkey:4.13.0.1")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+        implementation("tools.aqua:z3-turnkey:4.14.1")
 
         if (project.name != "common")
             implementation(project(":common"))
@@ -33,6 +33,6 @@ subprojects {
 
 tasks {
     wrapper {
-        gradleVersion = "8.11.1"
+        gradleVersion = "9.1.0"
     }
 }
