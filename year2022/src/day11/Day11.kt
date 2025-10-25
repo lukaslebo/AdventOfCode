@@ -74,7 +74,7 @@ private fun parseMonkeysById(input: List<String>) = (input + "").chunked(7).map 
 
 typealias Inspect = (Long) -> Long
 
-class Monkey(
+private class Monkey(
     val id: Int,
     val items: LinkedList<Long>,
     val inspect: Inspect,
