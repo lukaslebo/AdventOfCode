@@ -19,9 +19,11 @@ private fun part1(input: List<String>, size: Int = 256): Int {
     return list.knotHash(lengths).take(2).reduce(Int::times)
 }
 
-private fun part2(input: List<String>): String {
-    val lengths = input.first().map { it.code } + listOf(17, 31, 73, 47, 23)
-    val sparseHash = (0..255).toList().knotHash(lengths, times = 64)
+private fun part2(input: List<String>) = createKnotHash(input.first())
+
+fun createKnotHash(input: String, times: Int = 64): String {
+    val lengths = input.map { it.code } + listOf(17, 31, 73, 47, 23)
+    val sparseHash = (0..255).toList().knotHash(lengths, times)
     val denseHash = sparseHash.windowed(size = 16, step = 16) { it.reduce(Int::xor) }
     return denseHash.joinToString("") { it.toHexString().takeLast(2) }
 }
