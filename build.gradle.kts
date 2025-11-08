@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm") version "2.2.20"
     kotlin("plugin.serialization") version "2.2.20"
@@ -22,12 +20,6 @@ subprojects {
 
         if (project.name != "common")
             implementation(project(":common"))
-    }
-
-    tasks.withType<KotlinCompile> {
-        compilerOptions {
-            freeCompilerArgs.add("-Xcontext-receivers")
-        }
     }
 }
 
