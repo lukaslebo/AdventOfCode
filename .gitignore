@@ -3,3 +3,4 @@
 build
 year*/input/*.txt
 .run
+out/
