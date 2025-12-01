@@ -104,6 +104,8 @@ private data class Leaderboard(
     val event: String,
     @SerialName("owner_id")
     val ownerId: Long,
+    @SerialName("num_days")
+    val numberOfDays: Int,
     val members: Map<Long, Member>,
     @SerialName("day1_ts")
     @Serializable(with = LocalDateTimeSerializer::class)
@@ -118,7 +120,7 @@ private data class Member(
     @SerialName("local_score")
     val localScore: Int,
     @SerialName("global_score")
-    val globalScore: Int,
+    val globalScore: Int? = null,
     @SerialName("last_star_ts")
     @Serializable(with = LocalDateTimeSerializer::class)
     val lastStarTs: LocalDateTime,
