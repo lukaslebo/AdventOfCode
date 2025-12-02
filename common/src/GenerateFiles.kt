@@ -9,7 +9,8 @@ fun main() {
 }
 
 private fun nextMissingDay(): Int? {
-    for (day in 1..25) {
+    val maxDays = if (year >= 2025) 12 else 25
+    for (day in 1..maxDays) {
         if (existsDay(day)) continue
         return day
     }
