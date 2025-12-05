@@ -2,6 +2,7 @@ package day20
 
 import check
 import readInput
+import util.withoutOverlaps
 
 fun main() {
     val testInput = readInput("2016", "Day20_test")
@@ -41,24 +42,4 @@ private fun part2(input: List<String>): Long {
 private fun List<String>.parseBlockedIpRanges(): List<LongRange> = map {
     val (start, end) = it.split("-")
     start.toLong()..end.toLong()
-}
-
-private fun List<LongRange>.withoutOverlaps(): List<LongRange> {
-    if (isEmpty()) return emptyList()
-
-    val sorted = this.sortedBy { it.first }
-
-    val merged = mutableListOf<LongRange>()
-    var current = sorted.first()
-
-    for (next in sorted.drop(1)) {
-        if (next.first <= current.last + 1) {
-            current = current.first..maxOf(current.last, next.last)
-        } else {
-            merged += current
-            current = next
-        }
-    }
-    merged += current
-    return merged
 }
