@@ -1,10 +1,10 @@
 package day21
 
-import mirrorLeftRight
 import readInput
-import rotate180
-import rotate270
-import rotate90
+import util.mirrorLeftRight
+import util.rotate180
+import util.rotate270
+import util.rotate90
 import kotlin.math.sqrt
 
 fun main() {

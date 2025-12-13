@@ -1,8 +1,8 @@
 package day18
 
+import algorithms.aStar
 import check
 import readInput
-import util.aStar
 import kotlin.math.abs
 
 fun main() {

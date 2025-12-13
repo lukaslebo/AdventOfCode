@@ -1,8 +1,8 @@
 package day22
 
 import check
-import parallelMap
 import readInput
+import util.parallelMap
 
 fun main() {
     val testInput = readInput("2023", "Day22_test")

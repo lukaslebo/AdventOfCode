@@ -1,8 +1,8 @@
 package day25
 
+import algorithms.aStar
 import check
 import readInput
-import util.aStar
 
 fun main() {
     val testInput = readInput("2023", "Day25_test")

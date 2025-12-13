@@ -1,7 +1,7 @@
 package day23
 
+import algorithms.sieveOfEratosthenes
 import readInput
-import util.sieveOfEratosthenes
 import kotlin.math.absoluteValue
 
 fun main() {

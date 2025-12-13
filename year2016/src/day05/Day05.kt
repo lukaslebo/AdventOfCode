@@ -1,8 +1,8 @@
 package day05
 
 import check
-import md5
 import readInput
+import util.md5
 
 fun main() {
     check(part1("abc"), "18f47a30")

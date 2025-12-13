@@ -1,8 +1,8 @@
 package day04
 
 import check
-import md5
 import readInput
+import util.md5
 
 fun main() {
     val testInput = readInput("2015", "Day04_test")

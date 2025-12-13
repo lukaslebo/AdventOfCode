@@ -1,8 +1,8 @@
 package day20
 
 import check
-import lcm
 import readInput
+import util.lcm
 
 /** enable debug output to display in which order pulses are sent */
 private var debug = false

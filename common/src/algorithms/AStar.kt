@@ -1,6 +1,6 @@
-package util
+package algorithms
 
-import java.util.PriorityQueue
+import java.util.*
 
 data class Node<T>(
     val parent: Node<T>?,
