@@ -1,10 +1,10 @@
 package day05
 
+import algorithms.size
+import algorithms.withoutOverlaps
 import check
 import readInput
-import splitByEmptyLines
-import util.size
-import util.withoutOverlaps
+import util.splitByEmptyLines
 
 fun main() {
     val testInput = readInput("2025", "Day05_test")

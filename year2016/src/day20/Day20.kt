@@ -1,8 +1,8 @@
 package day20
 
+import algorithms.withoutOverlaps
 import check
 import readInput
-import util.withoutOverlaps
 
 fun main() {
     val testInput = readInput("2016", "Day20_test")

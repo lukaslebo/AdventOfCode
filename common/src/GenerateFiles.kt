@@ -1,8 +1,11 @@
+import tools.core.Client
 import java.io.File
-import java.time.LocalDate
 
-private val year = LocalDate.now().year
+private val year = 2018//LocalDate.now().year
 private val day = nextMissingDay()
+
+private const val includeAutoSubmit = false
+
 
 fun main() {
     if (day != null) generateDay(day)
@@ -30,10 +33,16 @@ private fun generateDay(day: Int) {
     val input = File("year$year/input/Day${paddedDay}.txt")
     val testInput = File("year$year/input/Day${paddedDay}_test.txt")
 
-    val content = kotlinContent.replace("{year}", year.toString()).replace("{day}", paddedDay)
+    val content =
+        (if (includeAutoSubmit) kotlinContent.insertAfter(autoSubmit, "println(part2(input))") else kotlinContent)
+            .replace("{year}", year.toString())
+            .replace("{dayPadded}", paddedDay)
+            .replace("{day}", day.toString())
+
     inputDir.mkdirs()
     kotlinDir.mkdirs()
     kotlinFile.writeTextIfNotExists(content)
+    if (Client.hasSession()) Client.downloadToInputFile(year, day)
     input.writeTextIfNotExists("")
     testInput.writeTextIfNotExists("")
 }
@@ -43,17 +52,17 @@ private fun File.writeTextIfNotExists(text: String) {
 }
 
 private val kotlinContent = """
-    package day{day}
+    package day{dayPadded}
 
     import check
     import readInput
 
     fun main() {
-        val testInput = readInput("{year}", "Day{day}_test")
+        val testInput = readInput("{year}", "Day{dayPadded}_test")
         check(part1(testInput), 0)
         //check(part2(testInput), 0)
 
-        val input = readInput("{year}", "Day{day}")
+        val input = readInput("{year}", "Day{dayPadded}")
         println(part1(input))
         println(part2(input))
     }
@@ -66,3 +75,14 @@ private val kotlinContent = """
         return input.size
     }
 """.trimIndent()
+
+private val autoSubmit = """|
+
+    tools.core.Client.submitAnswer(year = {year}, day = {day}, part = 1, answer = part1(input))
+    // tools.core.Client.submitAnswer(year = {year}, day = {day}, part = 2, answer = part2(input))
+""".trimMargin()
+
+private fun String.insertAfter(insert: String, after: String): String {
+    val at = indexOf(after) + after.length
+    return take(at) + insert + substring(at)
+}

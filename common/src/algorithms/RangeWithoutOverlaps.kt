@@ -1,4 +1,4 @@
-package util
+package algorithms
 
 fun List<LongRange>.withoutOverlaps(): List<LongRange> {
     if (isEmpty()) return emptyList()

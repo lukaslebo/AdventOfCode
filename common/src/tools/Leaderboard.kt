@@ -1,4 +1,4 @@
-package leaderboard
+package tools
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -9,26 +9,25 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
-import readProgramParams
-import requestEndpoint
+import tools.core.Client
+import tools.core.readParameters
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-private const val printStarsByUser = true
+private const val printStarsByUser = false
 private const val printRanksPerStar = true
 
 /**
- * Run with args: --session=abc --leaderboardUrl=https://adventofcode.com/2023/leaderboard/private/view/123.json
- * Your AoC Session and the leaderboard URL are required.
+ * Run with args: --leaderboardUrl=https://adventofcode.com/2023/leaderboard/private/view/123.json
+ *
+ * Make sure to set your session cookie as AOC_SESSION env variable.
  */
 fun main(args: Array<String>) {
-    val (session, leaderboardUrl) = args.readProgramParams().let {
-        it.getValue("session") to it.getValue("leaderboardUrl")
-    }
+    val leaderboardUrl = args.readParameters().getValue("leaderboardUrl")
 
-    val leaderboardJson = requestEndpoint(leaderboardUrl, session)
+    val leaderboardJson = Client.getRequest(leaderboardUrl)
     val leaderboard = Json.decodeFromString<Leaderboard>(leaderboardJson)
     if (printStarsByUser) leaderboard.printStarDurationsPerMember()
     if (printRanksPerStar) leaderboard.printRanksPerStar()

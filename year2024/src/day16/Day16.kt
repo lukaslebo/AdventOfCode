@@ -1,9 +1,9 @@
 package day16
 
+import algorithms.aStar
+import algorithms.allBestPaths
 import check
 import readInput
-import util.aStar
-import util.allBestPaths
 import kotlin.math.abs
 
 fun main() {

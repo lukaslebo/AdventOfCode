@@ -1,4 +1,4 @@
-package util
+package algorithms
 
 import kotlin.math.sqrt
 

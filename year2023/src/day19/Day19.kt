@@ -2,7 +2,7 @@ package day19
 
 import check
 import readInput
-import splitByEmptyLines
+import util.splitByEmptyLines
 
 fun main() {
     val testInput = readInput("2023", "Day19_test")

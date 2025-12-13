@@ -1,8 +1,8 @@
 package day23
 
+import algorithms.bronKerbosch
 import check
 import readInput
-import util.bronKerbosch
 
 fun main() {
     val testInput = readInput("2024", "Day23_test")

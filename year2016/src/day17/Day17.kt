@@ -1,9 +1,9 @@
 package day17
 
+import algorithms.aStar
 import check
-import md5
 import readInput
-import util.aStar
+import util.md5
 import kotlin.math.abs
 import kotlin.math.max
 

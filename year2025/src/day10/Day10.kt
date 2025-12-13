@@ -2,8 +2,8 @@ package day10
 
 import check
 import com.microsoft.z3.*
-import parallelMap
 import readInput
+import util.parallelMap
 
 fun main() {
     val testInput = readInput("2025", "Day10_test")

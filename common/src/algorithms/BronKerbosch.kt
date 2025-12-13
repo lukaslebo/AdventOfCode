@@ -1,4 +1,4 @@
-package util
+package algorithms
 
 /**
  * Bron-Kerbosch is a Algorithm to find all maximal cliques in a graph.

@@ -1,8 +1,8 @@
 package day14
 
 import check
-import lcm
 import readInput
+import util.lcm
 
 fun main() {
     val testInput = readInput("2024", "Day14_test")
