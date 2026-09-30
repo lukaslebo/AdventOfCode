@@ -1,6 +1,6 @@
 package algorithms
 
-import java.util.*
+import java.util.PriorityQueue
 
 data class Node<T>(
     val parent: Node<T>?,
@@ -14,7 +14,7 @@ data class Node<T>(
 fun <T> aStar(
     from: T,
     goal: (T) -> Boolean,
-    neighboursWithCost: T.() -> Set<Pair<T, Int>>,
+    neighboursWithCost: T.() -> Collection<Pair<T, Int>>,
     heuristic: (T) -> Int = { 0 },
 ): Node<T>? {
     val visited = mutableSetOf<T>()
@@ -39,7 +39,7 @@ fun <T> aStar(
 fun <T> allBestPaths(
     from: T,
     goal: (T) -> Boolean,
-    neighboursWithCost: T.() -> Set<Pair<T, Int>>,
+    neighboursWithCost: T.() -> Collection<Pair<T, Int>>,
     heuristic: (T) -> Int = { 0 },
 ): List<Node<T>> {
     val results = mutableListOf<Node<T>>()
@@ -58,6 +58,7 @@ fun <T> allBestPaths(
 
         if (goal(current.value)) {
             results += current
+            continue
         }
 
         for ((next, cost) in current.value.neighboursWithCost()) {

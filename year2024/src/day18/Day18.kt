@@ -1,9 +1,9 @@
 package day18
 
+import kotlin.math.abs
 import algorithms.aStar
 import check
 import readInput
-import kotlin.math.abs
 
 fun main() {
     val testInput = readInput("2024", "Day18_test")
@@ -78,7 +78,6 @@ private fun MemoryCorruptionMap.findShortestPath(corruptionSize: Int): List<Pos>
     fun Pos.neighboursWithCost() = adjacent
         .filter { it !in alreadyCorrupted && it.x in xRange && it.y in yRange }
         .map { it to 1 }
-        .toSet()
 
     val end = aStar(
         from = Pos(0, 0),

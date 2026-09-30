@@ -1,10 +1,10 @@
 package day16
 
+import kotlin.math.abs
 import algorithms.aStar
 import algorithms.allBestPaths
 import check
 import readInput
-import kotlin.math.abs
 
 fun main() {
     val testInput1 = readInput("2024", "Day16_test1")
@@ -72,7 +72,6 @@ private fun Node.neighboursWithCost(race: Race) = Pos.directions
         else Node(pos, it) to 1000
     }
     .filter { it.first.pos !in race.walls }
-    .toSet()
 
 private fun Race.findBestPathScore(): Int {
     val endNode = aStar(

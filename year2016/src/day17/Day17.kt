@@ -1,11 +1,11 @@
 package day17
 
+import kotlin.math.abs
+import kotlin.math.max
 import algorithms.aStar
 import check
 import readInput
 import util.md5
-import kotlin.math.abs
-import kotlin.math.max
 
 fun main() {
     val testInput = readInput("2016", "Day17_test")
@@ -30,7 +30,6 @@ private fun part1(input: List<String>): String {
                 .map { this + it }
                 .filter { it.pos.x in 0..3 && it.pos.y in 0..3 }
                 .map { it to 1 }
-                .toSet()
         },
         heuristic = { it.pos.manhattanDistanceTo(target) },
     )?.value?.path

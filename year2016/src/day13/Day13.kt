@@ -1,9 +1,9 @@
 package day13
 
+import kotlin.math.abs
 import algorithms.aStar
 import check
 import readInput
-import kotlin.math.abs
 
 fun main() {
     val testInput = readInput("2016", "Day13_test")
@@ -23,7 +23,6 @@ private fun part1(input: List<String>, target: Pos = Pos(31, 39)): Int {
             Pos.directions.map { this + it }
                 .filter { it.x >= 0 && it.y >= 0 && !it.isWall(favoriteNumber) }
                 .map { it to 1 }
-                .toSet()
         },
         heuristic = { it.manhattanDistanceTo(target) },
     )?.cost ?: error("no path found")

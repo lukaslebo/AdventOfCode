@@ -18,7 +18,7 @@ private fun part1(input: List<String>): Int {
 
     fun String.getNeighboursWithCostIgnoring(ignore: Set<Pair<String, String>>) = graph.getValue(this)
         .filter { it to this !in ignore && this to it !in ignore }
-        .mapTo(mutableSetOf()) { it to 1 }
+        .map { it to 1 }
 
     fun Pair<String, String>.findPathAroundIgnoring(ignore: Set<Pair<String, String>>) = aStar(
         from = first,

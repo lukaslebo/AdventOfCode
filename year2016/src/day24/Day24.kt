@@ -1,9 +1,9 @@
 package day24
 
+import kotlin.math.abs
 import algorithms.aStar
 import check
 import readInput
-import kotlin.math.abs
 
 fun main() {
     val testInput = readInput("2016", "Day24_test")
@@ -25,7 +25,7 @@ private fun AirDuctMap.findShortestPathToVisitAllNums(returnToStart: Boolean = f
         val distance = aStar(
             from = from,
             goal = { it == goal },
-            neighboursWithCost = { neighbours().filter { it !in walls }.map { it to 1 }.toSet() },
+            neighboursWithCost = { neighbours().filter { it !in walls }.map { it to 1 } },
             heuristic = { it.manhattanDistanceTo(goal) },
         )!!.cost
         listOf("$fromNum$toNum" to distance, "$toNum$fromNum" to distance)
