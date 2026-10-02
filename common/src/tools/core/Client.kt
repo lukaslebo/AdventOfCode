@@ -8,7 +8,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 object Client {
-    private val session = System.getenv()["AOC_SESSION"]
+    private val session = readSessionFile() ?: System.getenv()["AOC_SESSION"]
 
     private val proxyHost = System.getenv()["PROXY_HOST"]
     private val proxyPort = System.getenv()["PROXY_PORT"]?.toIntOrNull()
@@ -106,5 +106,10 @@ object Client {
             })
         }
         return proxy
+    }
+
+    private fun readSessionFile(): String? {
+        val sessionFile = File(".session")
+        return if (sessionFile.exists() && sessionFile.isFile) sessionFile.readText().trim() else null
     }
 }
